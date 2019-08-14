@@ -1,27 +1,31 @@
-/* eslint-disable no-param-reassign */
-const users = [];
+interface User {
+  id: number;
+  username: string;
+  room: string;
+}
+const users: User[] = [];
 
-const addUser = ({ id, username, room }) => {
-// Clean the data
+export const addUser = ({ id, username, room }: User) => {
+  // Clean the data
   username = username.trim().toLowerCase();
   room = room.trim().toLowerCase();
 
   // Validate the data
   if (!username || !room) {
     return {
-      error: 'Username and room are required!',
+      error: 'Username and room are required!'
     };
   }
 
   // Check for existing user
-  const existingUser = users.find((user) => {
+  const existingUser = users.find(user => {
     return user.room === room && user.username === username;
   });
 
   // Validate username
   if (existingUser) {
     return {
-      error: 'Username is in use!',
+      error: 'Username is in use!'
     };
   }
 
@@ -31,7 +35,7 @@ const addUser = ({ id, username, room }) => {
   return { user };
 };
 
-const removeUser = (id) => {
+export const removeUser = (id: number): User | undefined => {
   const index = users.findIndex(user => user.id === id);
 
   if (index !== -1) {
@@ -39,18 +43,11 @@ const removeUser = (id) => {
   }
 };
 
-const getUser = (id) => {
+export const getUser = (id: number): User | undefined => {
   return users.find(user => user.id === id);
 };
 
-const getUsersInRoom = (room) => {
+export const getUsersInRoom = (room: string): User[] => {
   room = room.trim().toLowerCase();
   return users.filter(user => user.room === room);
-};
-
-module.exports = {
-  addUser,
-  removeUser,
-  getUser,
-  getUsersInRoom,
 };
